@@ -1,3 +1,4 @@
 module github.com/llucmarti/gosearchengine
 
-go 1.21.4
+go 1.17
+

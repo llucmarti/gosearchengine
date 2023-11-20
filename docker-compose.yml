@@ -1,0 +1,28 @@
+
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: scrapad
+      POSTGRES_PASSWORD: scrapad
+      POSTGRES_DB: searchengine
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=scrapad
+      - DB_PASSWORD=scrapad
+      - DB_NAME=searchengine

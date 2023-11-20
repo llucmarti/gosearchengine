@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func main() {
-	print("Search engine")
+	fmt.Println("Search engine")
 }
