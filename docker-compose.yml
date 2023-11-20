@@ -5,9 +5,9 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: scrapad
-      POSTGRES_PASSWORD: scrapad
-      POSTGRES_DB: searchengine
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - ./data:/var/lib/postgresql/data
     ports:
@@ -21,8 +21,8 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=scrapad
-      - DB_PASSWORD=scrapad
-      - DB_NAME=searchengine
+      - DB_HOST= ${DB_HOST}
+      - DB_PORT= ${DB_PORT}
+      - DB_USER= ${DB_USER}
+      - DB_PASSWORD= ${DB_PASSWORD}
+      - DB_NAME= ${DB_NAME}
