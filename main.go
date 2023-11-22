@@ -16,7 +16,7 @@ func main() {
 	db := db.DBconnect()
 	fmt.Println(db)
 
-	csvloader.LoadCSV("ad.csv")
+	csvloader.LoadCSV(db, "ad.csv")
 
 	router.HandleFunc("/products", handlers.GetProducts).Methods("GET")
 	http.ListenAndServe(":8080", router)
