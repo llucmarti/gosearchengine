@@ -1,14 +1,16 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 type Product struct {
-	gorm.Model
 	ID        string `gorm:"primaryKey"`
 	Name      string
 	Amount    int
 	Price     int
 	Materials []Material `gorm:"many2many:product_materials;"`
+}
+
+type ProductResponse struct {
+	Products []Product `json:"ads"`
+	Total    int       `json:"total"`
+	Current  int       `json:"current"`
+	NextPage int       `json:"nextPage"`
 }

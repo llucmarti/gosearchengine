@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/llucmarti/gosearchengine/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -11,5 +12,7 @@ func DBconnect() *gorm.DB {
 	if err != nil {
 		panic("Failed to connect to database!")
 	}
+
+	db.AutoMigrate(&models.Product{}, &models.Material{})
 	return db
 }
