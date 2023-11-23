@@ -1,6 +1,8 @@
-package db
+package database
 
 import (
+	"fmt"
+
 	"github.com/llucmarti/gosearchengine/dto"
 	"gorm.io/gorm"
 )
@@ -17,6 +19,7 @@ func GetProductsByMaterial(db *gorm.DB, term string) ([]dto.ProductResponse, err
 		Find(&products).Error
 
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 

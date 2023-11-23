@@ -6,14 +6,14 @@ import (
 
 	"github.com/gorilla/mux"
 	// "github.com/llucmarti/gosearchengine/csvloader"
-	"github.com/llucmarti/gosearchengine/db"
+	"github.com/llucmarti/gosearchengine/database"
 	"github.com/llucmarti/gosearchengine/handlers"
 )
 
 func main() {
 	router := mux.NewRouter()
 
-	db := db.DBconnect()
+	db := database.DBconnect()
 	fmt.Println(db)
 
 	//csvloader.LoadCSV(db, "ad.csv")

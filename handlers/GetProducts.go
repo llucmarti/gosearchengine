@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"strconv"
 
+	"github.com/llucmarti/gosearchengine/database"
 	"github.com/llucmarti/gosearchengine/dto"
+	"github.com/llucmarti/gosearchengine/helper"
 	"gorm.io/gorm"
 )
 
@@ -17,26 +18,18 @@ func GetProducts(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	perPage, _ := strconv.Atoi(r.URL.Query().Get("perPage"))
 	nPage, _ := strconv.Atoi(r.URL.Query().Get("nPage"))
 
-	products := []dto.ProductResponse{}
+	products, _ := database.GetProductsByMaterial(db, term)
 
-	db.Table("products").Select("products.id, products.name, products.amount, products.price").
-		Joins("join product_materials on product_materials.product_id = products.id").
-		Joins("join materials on product_materials.material_id = materials.id").
-		Where("materials.name = ?", term).
-		Group("products.id").
-		Find(&products)
-
-	current := nPage
-	nextPage := nPage + 1
-	if nextPage*perPage >= len(products) {
-		nextPage = -1
+	if len(products) == 0 {
+		http.Error(w, "No products found for the given material", http.StatusNotFound)
+		return
 	}
 
 	response := dto.AdResponse{
 		Advertising: products,
 		Total:       len(products),
-		Current:     current,
-		NextPage:    nextPage,
+		Current:     nPage,
+		NextPage:    helper.GetNextPage(nPage, perPage, len(products)),
 	}
 
 	jsonResponse, err := json.Marshal(response)
@@ -46,8 +39,7 @@ func GetProducts(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonResponse)
-
-	fmt.Println(products, len(products))
 
 }
