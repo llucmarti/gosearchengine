@@ -74,6 +74,10 @@ func LoadCSV(db *gorm.DB, filePath string) error {
 			if err := tx.FirstOrCreate(&product, models.Product{ID: product.ID}).Error; err != nil {
 				return err
 			}
+
+			if err := tx.Model(&product).Association("Materials").Append(&material); err != nil {
+				return err
+			}
 		}
 
 		return nil
