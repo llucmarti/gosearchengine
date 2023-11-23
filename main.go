@@ -18,9 +18,8 @@ func main() {
 
 	//csvloader.LoadCSV(db, "ad.csv")
 
-	router.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) {
-		handlers.GetProducts(db, w, r)
-	}).Methods("GET")
+	router.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) { handlers.GetProducts(db, w, r) }).Methods("GET")
+	router.HandleFunc("/detail", func(w http.ResponseWriter, r *http.Request) { handlers.GetProductsByID(db, w, r) }).Methods("GET")
 	http.ListenAndServe(":8080", router)
 
 }
