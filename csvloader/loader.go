@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/llucmarti/gosearchengine/database"
 	"github.com/llucmarti/gosearchengine/helper"
 	"github.com/llucmarti/gosearchengine/models"
 	"gorm.io/gorm"
@@ -51,16 +52,9 @@ func LoadCSV(db *gorm.DB, filePath string) error {
 				Name: helper.NormalizeString(record[4]),
 			}
 
-			if err := tx.FirstOrCreate(&material, models.Material{ID: material.ID}).Error; err != nil {
-				return err
-			}
-			if err := tx.FirstOrCreate(&product, models.Product{ID: product.ID}).Error; err != nil {
-				return err
-			}
-
-			if err := tx.Model(&product).Association("Materials").Append(&material); err != nil {
-				return err
-			}
+			database.CreateProduct(tx, product)
+			database.CreateMaterial(tx, material)
+			database.CreateProductMaterial(tx, product, material)
 		}
 
 		return nil

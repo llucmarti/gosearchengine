@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -17,9 +18,10 @@ func main() {
 	fmt.Println(db)
 
 	csvloader.LoadCSV(db, "ad.csv")
+	fmt.Println("CSV loaded")
 
 	router.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) { handlers.GetProducts(db, w, r) }).Methods("GET")
 	router.HandleFunc("/detail", func(w http.ResponseWriter, r *http.Request) { handlers.GetProductsByID(db, w, r) }).Methods("GET")
-	http.ListenAndServe(":8080", router)
+	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
