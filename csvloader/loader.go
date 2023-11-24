@@ -1,15 +1,12 @@
 package csvloader
 
 import (
-	"crypto/sha256"
 	"encoding/csv"
-	"encoding/hex"
 	"io"
 	"log"
 	"os"
-	"strconv"
-	"strings"
 
+	"github.com/llucmarti/gosearchengine/helper"
 	"github.com/llucmarti/gosearchengine/models"
 	"gorm.io/gorm"
 )
@@ -42,30 +39,16 @@ func LoadCSV(db *gorm.DB, filePath string) error {
 				return err
 			}
 
-			price, err := strconv.ParseFloat(record[3], 64)
-			if err != nil {
-				return err
-			}
-			price = price / 100
-
-			amount, err := strconv.Atoi(record[2])
-			if err != nil {
-				return err
-			}
-			name := strings.ToLower(strings.ReplaceAll(record[4], " ", ""))
-
-			code := generateCode(name)
-
 			product := models.Product{
 				ID:     record[0],
 				Name:   record[1],
-				Amount: amount,
-				Price:  price,
+				Amount: helper.CalculateAmount(record[2]),
+				Price:  helper.CalculatePrice(record[3]),
 			}
 
 			material := models.Material{
-				ID:   code,
-				Name: name,
+				ID:   helper.GenerateMaterialID(record[4]),
+				Name: helper.NormalizeString(record[4]),
 			}
 
 			if err := tx.FirstOrCreate(&material, models.Material{ID: material.ID}).Error; err != nil {
@@ -88,10 +71,4 @@ func LoadCSV(db *gorm.DB, filePath string) error {
 	}
 
 	return nil
-}
-
-func generateCode(name string) string {
-	hash := sha256.Sum256([]byte(name))
-	code := hex.EncodeToString(hash[:])[:4]
-	return strings.ToUpper(code)
 }
