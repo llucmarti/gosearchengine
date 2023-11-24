@@ -54,9 +54,10 @@ func GetMaterialsByID(db *gorm.DB, id string) ([]string, error) {
 	return materialIDs, nil
 }
 
-func GetRelatedProducts(db *gorm.DB, materialIDs []string, id string) ([]dto.ProductResponse, error) {
+func GetRelatedProducts(db *gorm.DB, id string) ([]dto.ProductResponse, error) {
 	var relatedAds []dto.ProductResponse
 
+	materialIDs, _ := GetMaterialsByID(db, id)
 	err := db.Table("products").Select("products.*").
 		Joins("join product_materials on products.id = product_materials.product_id").
 		Where("product_materials.material_id IN (?)", materialIDs).
