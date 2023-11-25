@@ -6,21 +6,20 @@ import (
 
 	"github.com/llucmarti/gosearchengine/database"
 	"github.com/llucmarti/gosearchengine/dto"
-	"gorm.io/gorm"
 )
 
-func GetProductsByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+func GetProductsByID(db *database.DB, w http.ResponseWriter, r *http.Request) {
 
 	id := r.URL.Query().Get("id")
 
-	product, _ := database.GetProductByID(db, id)
+	product, _ := db.GetProductByID(id)
 
 	if product.ID == "" {
 		http.Error(w, "No products found for this ID", http.StatusNotFound)
 		return
 	}
 
-	relatedAds, _ := database.GetRelatedProducts(db, id)
+	relatedAds, _ := db.GetRelatedProducts(id)
 
 	response := dto.DetailResponse{
 		ID:         product.ID,
