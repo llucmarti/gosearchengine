@@ -15,7 +15,7 @@ func main() {
 	router := mux.NewRouter()
 
 	db := database.DBconnect()
-	fmt.Println(db)
+	fmt.Println("Database connected")
 
 	csvloader.LoadCSV(db, "ad.csv")
 	fmt.Println("CSV loaded")
