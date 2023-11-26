@@ -1,11 +1,11 @@
 
-# Step 1: Choose a base image
+# Get the image
 FROM golang:latest
 
-# Step 2: Set the working directory
+# Set the working directory
 WORKDIR /app
 
-# Step 3: Copy your code
+# Copy code
 COPY . .
 
 # Download and install the dependencies
@@ -13,8 +13,8 @@ RUN go get -d -v ./...
 
 RUN go build -o main .
 
-#EXPOSE the port
-EXPOSE 8000
+# Expose the port
+EXPOSE 8080
 
-# Step 6: Set the command to run your code
+# Run the application
 CMD ["./main"]

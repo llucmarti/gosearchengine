@@ -21,7 +21,7 @@ func main() {
 	fmt.Println("CSV loaded")
 
 	router.HandleFunc("/products", func(w http.ResponseWriter, r *http.Request) { handlers.GetProducts(db, w, r) }).Methods("GET")
-	router.HandleFunc("/detail", func(w http.ResponseWriter, r *http.Request) { handlers.GetProductsByID(db, w, r) }).Methods("GET")
+	router.HandleFunc("/details", func(w http.ResponseWriter, r *http.Request) { handlers.GetDetailsByID(db, w, r) }).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 
 }

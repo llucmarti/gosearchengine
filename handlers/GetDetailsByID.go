@@ -8,7 +8,7 @@ import (
 	"github.com/llucmarti/gosearchengine/dto"
 )
 
-func GetProductsByID(db *database.DB, w http.ResponseWriter, r *http.Request) {
+func GetDetailsByID(db *database.DB, w http.ResponseWriter, r *http.Request) {
 
 	id := r.URL.Query().Get("id")
 
