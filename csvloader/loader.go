@@ -64,11 +64,9 @@ func LoadCSV(db *database.DB, filePath string) error {
 				// handle error, return or break
 			}
 
-			association := db.Model(&product).Association("Materials")
-			association.Append(&material)
-			if association.Error != nil {
-				log.Printf("Error creating association: %v", association.Error)
-				// handle error, return or break
+			err = db.CreateProductMaterialAssociation(&product, &material)
+			if err != nil {
+				log.Printf("Error creating association: %v", err)
 			}
 		}
 

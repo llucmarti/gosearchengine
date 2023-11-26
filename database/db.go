@@ -119,11 +119,11 @@ func (db *DB) CreateMaterial(material *models.Material) error {
 	return nil
 }
 
-func (db *DB) CreateProductMaterial(product *models.Product, material *models.Material) error {
-	err := db.Model(&product).Association("Materials").Append(&material)
-	if err != nil {
-		return err
+func (db *DB) CreateProductMaterialAssociation(product *models.Product, material *models.Material) error {
+	association := db.Model(&product).Association("Materials")
+	association.Append(&material)
+	if association.Error != nil {
+		return association.Error
 	}
-
 	return nil
 }
