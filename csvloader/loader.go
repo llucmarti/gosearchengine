@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func LoadCSV(db *gorm.DB, filePath string) error {
+func LoadCSV(db *database.DB, filePath string) error {
 
 	// Open the CSV file
 	file, err := os.Open(filePath)
@@ -52,9 +52,9 @@ func LoadCSV(db *gorm.DB, filePath string) error {
 				Name: helper.NormalizeString(record[4]),
 			}
 
-			database.CreateProduct(tx, product)
-			database.CreateMaterial(tx, material)
-			database.CreateProductMaterial(tx, product, material)
+			db.CreateProduct(&product)
+			db.CreateMaterial(&material)
+			db.CreateProductMaterial(&product, &material)
 		}
 
 		return nil

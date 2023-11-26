@@ -100,3 +100,30 @@ func (db *DB) GetRelatedProducts(id string) ([]dto.ProductResponse, error) {
 
 	return relatedAds, nil
 }
+
+func (db *DB) CreateProduct(product *models.Product) error {
+	err := db.FirstOrCreate(&product, models.Product{ID: product.ID}).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (db *DB) CreateMaterial(material *models.Material) error {
+	err := db.FirstOrCreate(&material, models.Material{ID: material.ID}).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (db *DB) CreateProductMaterial(product *models.Product, material *models.Material) error {
+	err := db.Model(&product).Association("Materials").Append(&material)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
