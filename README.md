@@ -9,6 +9,27 @@ Before you begin, ensure you have met the following requirements:
 
 * You have installed the latest version of docker.
 
+## Running the Application
+
+This application is containerized using Docker, which makes it easy to run without having to set up a development environment.
+
+To run the application, follow these steps:
+
+1. Ensure you have Docker and Docker Compose installed on your machine.
+
+2. Open a terminal and navigate to the root directory of the project.
+
+3. Build the Docker images by running the following command:
+
+```bash
+docker-compose build 
+```
+4. Once the build is complete, start the application by running:
+
+```bash
+docker-compose up api
+```
+
 ## Technologies Used
 
 This project uses the following technologies:
