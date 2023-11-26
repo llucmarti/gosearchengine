@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"strconv"
@@ -12,14 +11,13 @@ import (
 	"github.com/llucmarti/gosearchengine/helper"
 )
 
-func GetProducts(db *database.DB, w http.ResponseWriter, r *http.Request) {
+func GetAds(db *database.DB, w http.ResponseWriter, r *http.Request) {
 
 	term := r.URL.Query().Get("term")
 	perPage, _ := strconv.Atoi(r.URL.Query().Get("perPage"))
 	nPage, _ := strconv.Atoi(r.URL.Query().Get("nPage"))
 
 	products, _ := db.GetProductsByMaterial(term)
-	fmt.Println("Products", products)
 	if len(products) == 0 {
 		http.Error(w, "No products found for the given material", http.StatusNotFound)
 		return
