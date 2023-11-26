@@ -55,13 +55,11 @@ func LoadCSV(db *database.DB, filePath string) error {
 			productErr := db.CreateProduct(&product)
 			if productErr != nil {
 				log.Printf("Error creating product: %v", productErr)
-				// handle error, return or break
 			}
 
 			materialErr := db.CreateMaterial(&material)
 			if materialErr != nil {
 				log.Printf("Error creating material: %v", materialErr)
-				// handle error, return or break
 			}
 
 			err = db.CreateProductMaterialAssociation(&product, &material)
