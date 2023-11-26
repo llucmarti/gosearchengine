@@ -45,7 +45,7 @@ func TestCreateProduct(t *testing.T) {
 
 }
 
-func (m *MockDatastore) CreateProductMaterial(product *models.Product, material models.Material) error {
+func (m *MockDatastore) CreateProductMaterialMock(product *models.Product, material models.Material) error {
 	args := m.Called(product, material)
 	return args.Error(0)
 }
@@ -56,7 +56,7 @@ func TestCreateProductMaterial(t *testing.T) {
 	material := models.Material{ID: "12", Name: "lingotes"}
 	mockDatastore.On("CreateProductMaterial", product, material).Return(nil)
 
-	err := mockDatastore.CreateProductMaterial(product, material)
+	err := mockDatastore.CreateProductMaterialMock(product, material)
 
 	assert.NoError(t, err)
 	mockDatastore.AssertCalled(t, "CreateProductMaterial", product, material)

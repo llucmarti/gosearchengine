@@ -52,9 +52,24 @@ func LoadCSV(db *database.DB, filePath string) error {
 				Name: helper.NormalizeString(record[4]),
 			}
 
-			db.CreateProduct(&product)
-			db.CreateMaterial(&material)
-			db.CreateProductMaterial(&product, &material)
+			productErr := db.CreateProduct(&product)
+			if productErr != nil {
+				log.Printf("Error creating product: %v", productErr)
+				// handle error, return or break
+			}
+
+			materialErr := db.CreateMaterial(&material)
+			if materialErr != nil {
+				log.Printf("Error creating material: %v", materialErr)
+				// handle error, return or break
+			}
+
+			association := db.Model(&product).Association("Materials")
+			association.Append(&material)
+			if association.Error != nil {
+				log.Printf("Error creating association: %v", association.Error)
+				// handle error, return or break
+			}
 		}
 
 		return nil

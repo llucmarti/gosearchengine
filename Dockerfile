@@ -14,7 +14,7 @@ RUN go get -d -v ./...
 RUN go build -o main .
 
 # Expose the port
-EXPOSE 8080
+EXPOSE 8000
 
 # Run the application
 CMD ["./main"]

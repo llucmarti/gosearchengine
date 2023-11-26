@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"strconv"
@@ -18,7 +19,7 @@ func GetProducts(db *database.DB, w http.ResponseWriter, r *http.Request) {
 	nPage, _ := strconv.Atoi(r.URL.Query().Get("nPage"))
 
 	products, _ := db.GetProductsByMaterial(term)
-
+	fmt.Println("Products", products)
 	if len(products) == 0 {
 		http.Error(w, "No products found for the given material", http.StatusNotFound)
 		return
